@@ -1,106 +1,140 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
 
-//Return (pid,time)
+//SJF ALGORITHM
 
-vector<pair<int,int>>FCFS(vector<pair<pair<int,int>,int>>&process,int n){
-       sort(process.begin(),process.end());
-       map<int,vector<int>>param;  //(pid,(at,bt,ct,tat,wt))
-       for(auto i:process){
-        param[i.first.second].push_back(i.first.first);
-        param[i.first.second].push_back(i.second);
-       }
-       vector<pair<int,int>>gant;
-       int time=0;
-       for(auto i:process){
-          if(i.first.first>time){
-             while(i.first.first<time){
-                time++;
-            }
-            time+=i.second;
-            gant.push_back({i.first.second,time});
+class Process{
+public:
+    int pid;
+    int at;
+    int bt;
+    int ct;
+    int tat;
+    int wt;
+    int rt;
+    bool isready; //true if it's present in ready_queue
 
-          }else{
-            time+=i.second;
-             gant.push_back({i.first.second,time});
-          }
-       }
-
-       for(auto i:gant){
-          param[i.first].push_back(i.second);
-       }
-       for(auto i:param){
-         int TT=i.second[2]-i.second[0];
-         param[i.first].push_back(TT);
-       }
-       for(auto i:param){
-         int CT=i.second[3]-i.second[1];
-         param[i.first].push_back(CT);
-       }
-       cout<<"DATA TABLE"<<endl;
-       cout<<"Pid"<<"  "<<"A.T"<<"  "<<"B.T"<<"  "<<"C.T"<<"  "<<"T.A.T"<<"  "<<"W.T"<<endl;
-       
-       for(auto i:param){
-         cout<<i.first<<"   ";
-         for(auto j:i.second){
-            cout<<j<<"    ";
-         }
-         cout<<endl;
-       }
-       cout<<endl;
-       
-       float wt=0;
-       float TAT=0;
-       int schedule=0;
-       for(auto i:param){
-          wt+=i.second[4];
-          TAT+=i.second[3];
-          schedule=max(schedule,i.second[2]);
-       }
-       wt=(float)wt/n;
-       TAT=(float)TAT/n;
-       
-       cout<<"Average T.A.T -->"<<TAT<<endl;
-       cout<<"Average W.T -->"<<wt<<endl;
-       cout<<"Scheduling Time -->"<<schedule<<endl;
-     
-     return gant;
-
-}
-
-int main()
-{   
-    //Case-1
-    // vector<pair<pair<int,int>,int>>process={
-    //     {{0,1},30},{{0,2},5},{{0,3},5}
-    // }; //((arrival,pid),(BT))
-    
-    
-    //Case-2
-    vector<pair<pair<int,int>,int>>process;
-    int n;
-    // cout<<"enter the no. of process"<<endl;
-    cin>>n;
-    int temp=n;
-
-    while(n--){
-        // cout<<"Enter the pid,arrival,bt"<<endl;
-        int pid;
-        int arrival;
-        int bt;
-        cin>>pid>>arrival>>bt;
-        pair<pair<int,int>,int>p={{arrival,pid},bt};
-        process.push_back(p); 
+    Process(int i,int j,int k){
+        pid=i;
+        at=j;
+        bt=k;
+        ct=-1;
+        tat=-1;
+        wt=-1;
+        rt=k;
+        isready=false;
     }
 
-    
-    vector<pair<int,int>>res=FCFS(process,temp);
 
-    //FOR PRINTING GANTT CHART
-    
-    cout<<endl<<"Gant Chart"<<endl;
-    for(auto i:res){
-        cout<<i.first<<" | ";
-    }    
-    return 0;
+};
+
+class Compare{
+public:
+    bool operator()(Process* p1,Process* p2){
+         if(p1->rt>p2->rt)return true;
+        if(p1->rt==p2->rt){
+           if(p1->at>p2->at)return true;
+            if(p1->at==p2->at){
+            if(p1->pid>p2->pid)return true;
+     }
+    }
+    return false;
+    }
+};
+
+bool cmp_at(Process* p1,Process* p2){
+   if(p1->at>p2->at)return false;
+   if(p1->at==p2->at){
+     if(p1->pid>p2->pid)return false;
+   }
+   return true; 
 }
+
+void generateParams(vector<Process*>&process){
+    for(int i=0;i<process.size();i++){
+        process[i]->tat=process[i]->ct-process[i]->at;
+        process[i]->wt=process[i]->tat-process[i]->bt;
+    }
+
+}
+
+void sjf(vector<Process*>&process){
+   sort(process.begin(),process.end(),cmp_at);
+   priority_queue<Process*,vector<Process*>,Compare>ready;
+
+   int timer=process[0]->at;
+   int k=0;
+   while(k<process.size()){
+       if(process[k]->at==timer){
+         ready.push(process[k]);
+         process[k]->isready=true;
+         k++;
+       }else break;
+   }
+
+   while(!ready.empty()){
+      auto execution=ready.top();
+      ready.pop();
+      int temp=timer;
+      timer+=execution->bt;
+      execution->ct=timer;
+      execution->rt=0;
+      execution->isready=false;
+
+      //temproary gant chart with time
+      // cout<<execution->pid<<"->["<<temp<<","<<execution->ct<<"]"<<endl;
+
+      cout<<execution->pid<<" | ";
+
+       for(int l=0;l<process.size();l++){
+         if(process[l]->isready)continue;
+         if(process[l]->at<=timer){
+            if(process[l]->rt>0){
+                ready.push(process[l]);
+                process[l]->isready=true;
+            }
+         }else break;
+       }
+
+   }
+   
+   cout<<endl<<endl;
+   generateParams(process);
+
+   int schedule=0;
+   int tt=0;
+   int wt=0;
+   for(auto i:process){
+      schedule=max(schedule,i->ct);
+      tt+=i->tat;
+      wt+=i->wt;
+   }
+
+   cout<<"Pid"<<" "<<"A.T"<<" "<<"B.T"<<" "<<"C.T"<<" "<<"T.A.T"<<" "<<"W.T"<<endl;
+   for(auto i:process){
+    cout<<i->pid<<"  | "<<i->at<<" | "<<i->bt<<" | "<<i->ct<<" | "<<i->tat<<"   | "<<i->wt<<endl;
+   }
+   cout<<endl;
+   cout<<"AVERAGE T.A.T -> "<<(float)tt/process.size()<<endl;
+   cout<<"AVERAGE W.T -> "<<(float)wt/process.size()<<endl;
+   cout<<"Scheduling Length -> "<<schedule<<endl;
+
+}
+
+int main(){
+   int n;
+    cin>>n;
+    vector<Process*>process;
+    for(int i=0;i<n;i++){
+        int pid,at,bt;
+        cin>>pid>>at>>bt;
+        Process*p1=new Process(pid,at,bt);
+        process.push_back(p1);
+    }
+
+    sjf(process);
+
+
+   return 0;
+}
+
