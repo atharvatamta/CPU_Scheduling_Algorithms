@@ -66,22 +66,26 @@ void Non_Pre_Priority(vector<Process*>&process){
 	priority_queue<Process*,vector<Process*>,Compare>ready;
    
 	int timer=process[0]->at;
-	
+	cout<<"GANTT-CHART->"<<endl;
+        cout<<"````````"<<endl;
+   	cout<<"Pid"<<setw(5)<<"S.T"<<setw(5)<<"E.T"<<endl;
+   	cout<<"---------------"<<endl;
   
-   for(int i=0;i<process.size();i++){
-   	 if(process[i]->at>timer)break;
-   	 ready.push(process[i]);
-   	 process[i]->isready=true;
-   }
+   	for(int i=0;i<process.size();i++){
+   	 	if(process[i]->at>timer)break;
+   	 	ready.push(process[i]);
+   	 	process[i]->isready=true;
+   	}
 
    while(!ready.empty()){
    	 auto execution=ready.top();
    	 ready.pop();
+	   int temp=timer;
    	 timer+=execution->bt;
    	 execution->rt=0;
    	 execution->ct=timer;
 
-   	 cout<<execution->pid<<" | ";
+   	 cout<<execution->pid<<setw(6)<<temp<<setw(6)<<execution->ct<<endl;
 
    	 for(int l=0;l<process.size();l++){
    	 	if(process[l]->isready)continue;
@@ -109,10 +113,17 @@ void Non_Pre_Priority(vector<Process*>&process){
       wt+=i->wt;
    }
 
-   cout<<"Pid"<<" "<<"A.T"<<" "<<"B.T"<<" "<<"C.T"<<" "<<"T.A.T"<<" "<<"W.T"<<endl;
+   schedule=schedule-process[0]->at;
+   int width=5;
+   cout<<"Process Attributes->"<<endl;
+   cout<<"````````````"<<endl;
+   cout<<"Pid"<<setw(width)<<"A.T"<<setw(width)<<"B.T"<<setw(width)<<"C.T"<<setw(7)<<"T.A.T"<<setw(width)<<"W.T"<<endl;
+   cout<<setw(width)<<setfill('-')<<"---"<<setw(width)<<"----"<<setw(width)<<"----"<<setw(width)<<"---------------"<<setfill(' ')<<endl;
+
    for(auto i:process){
-    cout<<i->pid<<"  | "<<i->at<<" | "<<i->bt<<" | "<<i->ct<<" | "<<i->tat<<"   | "<<i->wt<<endl;
+    cout<<i->pid<<setw(width+1)<<i->at<<setw(width)<<i->bt<<setw(width+1)<<i->ct<<setw(width+1)<<i->tat<<setw(width)<<i->wt<<endl;
    }
+	
    cout<<endl;
    cout<<"AVERAGE T.A.T -> "<<(float)tt/process.size()<<endl;
    cout<<"AVERAGE W.T -> "<<(float)wt/process.size()<<endl;
