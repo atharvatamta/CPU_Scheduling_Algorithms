@@ -78,6 +78,12 @@ void HRRN(vector<Process*>&process){
 
    int timer=process[0]->at;
    cur_time=timer;
+	
+   cout<<"GANTT-CHART->"<<endl;
+   cout<<"````````"<<endl;
+   cout<<"Pid"<<setw(5)<<"S.T"<<setw(5)<<"E.T"<<endl;
+   cout<<"---------------"<<endl;
+	
    for(int i=0;i<process.size();i++){
    	 if(process[i]->at>timer)break;
    	 ready.push(process[i]);
@@ -86,13 +92,14 @@ void HRRN(vector<Process*>&process){
    while(!ready.empty()){
    	 auto execution=ready.top();
    	 ready.pop();
+	 int temp=timer;  
    	 timer+=execution->bt;
    	 execution->rt=0;
    	 execution->ct=timer;
    	 
    	 cur_time=timer;
 
-   	 cout<<execution->pid<<" | ";
+   	 cout<<execution->pid<<setw(6)<<temp<<setw(6)<<timer<<endl;
 
    	 while(!ready.empty()){
    	 	ready.pop();
@@ -119,11 +126,18 @@ void HRRN(vector<Process*>&process){
       tt+=i->tat;
       wt+=i->wt;
    }
+	
+   schedule-=process[0]->at;
+   int width=5;
+   cout<<"Process Attributes->"<<endl;
+   cout<<"````````````"<<endl;
+   cout<<"Pid"<<setw(width)<<"A.T"<<setw(width)<<"B.T"<<setw(width)<<"C.T"<<setw(7)<<"T.A.T"<<setw(width)<<"W.T"<<endl;
+   cout<<setw(width)<<setfill('-')<<"---"<<setw(width)<<"----"<<setw(width)<<"----"<<setw(width)<<"---------------"<<setfill(' ')<<endl;
 
-   cout<<"Pid"<<" "<<"A.T"<<" "<<"B.T"<<" "<<"C.T"<<" "<<"T.A.T"<<" "<<"W.T"<<endl;
    for(auto i:process){
-    cout<<i->pid<<"  | "<<i->at<<" | "<<i->bt<<" | "<<i->ct<<" | "<<i->tat<<"   | "<<i->wt<<endl;
+    cout<<i->pid<<setw(width+1)<<i->at<<setw(width)<<i->bt<<setw(width+1)<<i->ct<<setw(width+1)<<i->tat<<setw(width)<<i->wt<<endl;
    }
+	
    cout<<endl;
    cout<<"AVERAGE T.A.T -> "<<(float)tt/process.size()<<endl;
    cout<<"AVERAGE W.T -> "<<(float)wt/process.size()<<endl;
@@ -131,7 +145,7 @@ void HRRN(vector<Process*>&process){
 }
 
 int main(){
-	 int n;
+    int n;
     cin>>n;
     vector<Process*>process;
     for(int i=0;i<n;i++){
