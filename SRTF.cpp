@@ -66,6 +66,12 @@ void srtf(vector<Process*>&process){
 
    int timer=process[0]->at;
    int k=0;
+
+    cout<<"GANTT-CHART->"<<endl;
+   cout<<"````````"<<endl;
+   cout<<"Pid"<<setw(5)<<"S.T"<<setw(5)<<"E.T"<<endl;
+   cout<<"---------------"<<endl;
+    
    while(k<process.size()){
        if(process[k]->at==timer){
          ready.push(process[k]);
@@ -75,8 +81,6 @@ void srtf(vector<Process*>&process){
    }
    
    
-   
-  
    while(!ready.empty()){
        auto execution=ready.top();
        ready.pop();
@@ -88,10 +92,7 @@ void srtf(vector<Process*>&process){
         execution->ct=timer;
        }
 
-       //temproary gant chart with time
-      // cout<<execution->pid<<"->["<<temp<<","<<execution->ct<<"]"<<endl;
-
-      cout<<execution->pid<<" | ";
+       cout<<execution->pid<<setw(6)<<temp<<setw(6)<<timer<<endl;
 
        for(int l=0;l<process.size();l++){
          if(process[l]->isready)continue;
@@ -117,12 +118,16 @@ void srtf(vector<Process*>&process){
       tt+=i->tat;
       wt+=i->wt;
    }
-   
 
-    
-    cout<<"Pid"<<" "<<"A.T"<<" "<<"B.T"<<" "<<"C.T"<<" "<<"T.A.T"<<" "<<"W.T"<<endl;
+   schedule-=process[0]->at;
+   int width=5;
+   cout<<"Process Attributes->"<<endl;
+   cout<<"````````````"<<endl;
+   cout<<"Pid"<<setw(width)<<"A.T"<<setw(width)<<"B.T"<<setw(width)<<"C.T"<<setw(7)<<"T.A.T"<<setw(width)<<"W.T"<<endl;
+   cout<<setw(width)<<setfill('-')<<"---"<<setw(width)<<"----"<<setw(width)<<"----"<<setw(width)<<"---------------"<<setfill(' ')<<endl;
+
    for(auto i:process){
-    cout<<i->pid<<"  | "<<i->at<<" | "<<i->bt<<" | "<<i->ct<<" | "<<i->tat<<"   | "<<i->wt<<endl;
+    cout<<i->pid<<setw(width+1)<<i->at<<setw(width)<<i->bt<<setw(width+1)<<i->ct<<setw(width+1)<<i->tat<<setw(width)<<i->wt<<endl;
    }
    cout<<endl;
    cout<<"AVERAGE T.A.T -> "<<(float)tt/process.size()<<endl;
