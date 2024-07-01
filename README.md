@@ -8,3 +8,40 @@ These Algorithms include:<br />
 5.**Premptive Priority Scheduling**<br />
 6.**Non Premptive Priority Scheduling**<br />
 7.**Round Robin** <br />
+<br />
+## Input Format for Programs
+**1**.**FCFS**, **SJF**, **HRRN**, **SRTF**
+  **Example-**
+   3 
+  1 2 3
+  2 3 4
+  3 4 5<br />
+   First Line contains one input i.e **No.of Process(N)**
+   Now the next N lines contain the information about the processes
+  i.e **(Process-id,Arrival-Time,Burst-Time)**. 
+  **NOTE-** **Keep Process-Id of every process unique**<br />
+**2**. **Round-Robin** 
+**Example-**
+3 2
+1 2 3
+2 3 4
+3 4 5 <br/>
+First line contains two inputs i.e **No.of Process(N)** and **Time-Quantum(TQ)**
+Now the next N lines contain the information about processes
+i.e **(Process-id,Arrival-Time,Burst-Time)**.
+**NOTE-** **Keep Process-Id of every process unique**
+	**NOTE-** **The value of TQ must be greater than zero Integer Value**
+<br />
+**3.** **Premptive-Priority and Non-Premptive Priority-Scheduling**
+**Example**
+3
+1 2 3 2
+2 3 4 3
+3 4 5 5<br />
+First Line contains one input i.e **No.of Process(N)**
+   Now the next N lines contain the information about the processes
+  i.e **(Process-id,Arrival-Time,Burst-Time,Process-Priority)**.
+    **NOTE-** **Keep Process-Id of every process unique**
+    **NOTE**- The algo works on the principle of Higher the value of Process Priority
+    Higher would be the preference. To change its default behaviour, you can change the comparator function of the priority_queue ready in the Program.
+
