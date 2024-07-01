@@ -10,7 +10,7 @@ These Algorithms include:<br />
 7.**Round Robin** <br />
 <br />
 ## Input Format for Programs
-**1**.**FCFS**, **SJF**, **HRRN**, **SRTF**
+**1**.**FCFS**, **SJF**, **HRRN**, **SRTF** <br />
   **Example-**<br />
    3 <br />
   1 2 3 <br />
@@ -20,7 +20,7 @@ These Algorithms include:<br />
    Now the next N lines contain the information about the processes
   i.e **(Process-id,Arrival-Time,Burst-Time)**. 
   **NOTE-** **Keep Process-Id of every process unique**<br /><br />
-**2**. **Round-Robin** 
+**2**. **Round-Robin** <br /> 
 **Example-**<br />
 3 2<br />
 1 2 3<br />
@@ -32,7 +32,7 @@ i.e **(Process-id,Arrival-Time,Burst-Time)**.
 **NOTE-** **Keep Process-Id of every process unique**
 	**NOTE-** **The value of TQ must be greater than zero Integer Value**
 <br /><br />
-**3.** **Premptive-Priority and Non-Premptive Priority-Scheduling**
+**3.** **Premptive-Priority and Non-Premptive Priority-Scheduling** <br/>
 **Example**<br />
 3<br />
 1 2 3 2<br />
