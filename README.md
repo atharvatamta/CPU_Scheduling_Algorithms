@@ -11,32 +11,32 @@ These Algorithms include:<br />
 <br />
 ## Input Format for Programs
 **1**.**FCFS**, **SJF**, **HRRN**, **SRTF**
-  **Example-**
-   3 
-  1 2 3
-  2 3 4
+  **Example-**<br />
+   3 <br />
+  1 2 3 <br />
+  2 3 4 <br />
   3 4 5<br />
    First Line contains one input i.e **No.of Process(N)**
    Now the next N lines contain the information about the processes
   i.e **(Process-id,Arrival-Time,Burst-Time)**. 
-  **NOTE-** **Keep Process-Id of every process unique**<br />
+  **NOTE-** **Keep Process-Id of every process unique**<br /><br />
 **2**. **Round-Robin** 
-**Example-**
-3 2
-1 2 3
-2 3 4
+**Example-**<br />
+3 2<br />
+1 2 3<br />
+2 3 4<br />
 3 4 5 <br/>
 First line contains two inputs i.e **No.of Process(N)** and **Time-Quantum(TQ)**
 Now the next N lines contain the information about processes
 i.e **(Process-id,Arrival-Time,Burst-Time)**.
 **NOTE-** **Keep Process-Id of every process unique**
 	**NOTE-** **The value of TQ must be greater than zero Integer Value**
-<br />
+<br /><br />
 **3.** **Premptive-Priority and Non-Premptive Priority-Scheduling**
-**Example**
-3
-1 2 3 2
-2 3 4 3
+**Example**<br />
+3<br />
+1 2 3 2<br />
+2 3 4 3<br />
 3 4 5 5<br />
 First Line contains one input i.e **No.of Process(N)**
    Now the next N lines contain the information about the processes
