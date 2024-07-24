@@ -91,7 +91,9 @@ void fcfs(vector<Process*>process){
 
 int main(){
 	 int n;
+	cout<<"enter number of processes : ";
     cin>>n;
+	
     vector<Process*>process;
     for(int i=0;i<n;i++){
         int pid,at,bt;
